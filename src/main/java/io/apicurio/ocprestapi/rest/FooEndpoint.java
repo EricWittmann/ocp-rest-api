@@ -27,10 +27,13 @@ public class FooEndpoint {
 	private void onPostConstruct() {
 		System.out.println("Initializing database using DS: " + dataSource);
 		try (Connection conn = dataSource.getConnection()) {
-			PreparedStatement statement = conn.prepareStatement("CREATE TABLE foo (id BIGINT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(2048))");
+			System.out.println("Connection: " + conn);
+			PreparedStatement statement = conn.prepareStatement("CREATE TABLE foo (id BIGINT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(2048))");
+			statement.executeUpdate();
+			statement = conn.prepareStatement("ALTER TABLE foo ADD PRIMARY KEY (id)");
 			statement.executeUpdate();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -57,13 +60,18 @@ public class FooEndpoint {
 
 	@POST
 	@Consumes("application/json")
-	public void addFoo(FooBean foo) {
+	@Produces("application/json")
+	public FooBean addFoo(FooBean foo) {
 		System.out.println("Adding a foo: " + foo);
 		try (Connection conn = dataSource.getConnection()) {
-			PreparedStatement statement = conn.prepareStatement("INSERT INTO foo (name, description) VALUES (?, ?)");
-			statement.setString(1, foo.getName());
-			statement.setString(2, foo.getDescription());
+			PreparedStatement statement = conn.prepareStatement("INSERT INTO foo (id, name, description) VALUES (?, ?, ?)");
+			long id = System.currentTimeMillis();
+			statement.setLong(1, id);
+			statement.setString(2, foo.getName());
+			statement.setString(3, foo.getDescription());
 			statement.executeUpdate();
+			foo.setId(id);
+			return foo;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

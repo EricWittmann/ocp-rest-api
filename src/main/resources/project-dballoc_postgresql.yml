@@ -5,6 +5,6 @@ swarm:
     data-sources:
       OcpDS:
         driver-name: postgresql
-        connection-url: jdbc:postgresql://postgres-94.hosts.mwqe.eng.bos.redhat.com:5432/dballo19
+        connection-url: jdbc:postgresql://10.19.64.192:5432/dballo19
         user-name: dballo19
         password: dballo19
