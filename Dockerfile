@@ -1,6 +1,6 @@
 FROM centos:7
 LABEL authors="Eric Wittmann <eric.wittmann@redhat.com>"
-ARG RELEASE_PATH
+ENV RELEASE_PATH target/ocp-rest-api-swarm.jar
 RUN yum install -y \
     java-1.8.0-openjdk-headless \
   && yum clean all
