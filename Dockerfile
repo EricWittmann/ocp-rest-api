@@ -17,9 +17,13 @@ USER 1001
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "/opt/ocp-rest-api/ocp-rest-api-swarm.jar", 
-	"-Dswarm.datasources.data-sources.OcpDS.driver-name=$(DB_DRIVER_NAME)",
-	"-Dswarm.datasources.data-sources.OcpDS.connection-url=$(DB_CONNECTION_URL)",
-	"-Dswarm.datasources.data-sources.OcpDS.user-name=$(DB_USER_NAME)",
-	"-Dswarm.datasources.data-sources.OcpDS.password=$(DB_PASSWORD)"
-	]
+ENV DB_DRIVER_NAME h2
+ENV DB_CONNECTION_URL=jdbc:h2:mem:test
+ENV DB_USER_NAME=sa
+ENV DB_PASSWORD=sa
+
+CMD java -jar /opt/ocp-rest-api/ocp-rest-api-swarm.jar \
+    -Dswarm.datasources.data-sources.OcpDS.driver-name=${DB_DRIVER_NAME} \
+    -Dswarm.datasources.data-sources.OcpDS.connection-url=${DB_CONNECTION_URL} \
+    -Dswarm.datasources.data-sources.OcpDS.user-name=${DB_USER_NAME} \
+    -Dswarm.datasources.data-sources.OcpDS.password=${DB_PASSWORD}
