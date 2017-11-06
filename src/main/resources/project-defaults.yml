@@ -1,5 +1,3 @@
-logger:
-    level: DEBUG
 swarm:
   datasources:
     data-sources:
@@ -8,3 +6,8 @@ swarm:
         connection-url: jdbc:h2:mem:test
         user-name: sa
         password: sa
+  keycloak:
+    security:
+      constraints:
+        - url-pattern: /foo
+          methods: [GET]

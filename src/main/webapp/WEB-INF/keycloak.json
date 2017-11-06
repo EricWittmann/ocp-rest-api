@@ -1,0 +1,7 @@
+{
+  "realm": "ocp-rest-api",
+  "bearer-only": true,
+  "auth-server-url":"http://bluejay.paalin.org:8180/auth",
+  "ssl-required": "NONE",
+  "resource": "api"
+}
